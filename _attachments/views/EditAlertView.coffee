@@ -24,7 +24,7 @@ class EditAlertView extends Backbone.View
           _(Alert.fields).map (field) ->
             fieldId = dasherize(field)
             "
-              <div class='mdl-textfield mdl-js-textfield'>
+              <div class='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
                 <input class='mdl-textfield__input' type='text' id='#{fieldId}'>
                 <label class='mdl-textfield__label' for='#{fieldId}'>#{field}</label>
               </div>
@@ -53,13 +53,11 @@ class EditAlertView extends Backbone.View
       </button>
     "
 
+    componentHandler.upgradeAllRegistered()
     @loadAlert() if @alert
 
-    $("#-frequency").addClass("awesomplete")
-
-
     frequencyAutocomplete = new Awesomplete $("#-frequency")[0],
-      list: ["Monthly","Weekly","Daily", "Hourly"]
+      list: ["Monthly","Weekly","Daily", "Hourly", "Minutely"]
       autoFirst: true
       minChars: 0
       filter: Awesomplete.FILTER_STARTSWITH
@@ -87,6 +85,7 @@ class EditAlertView extends Backbone.View
     _(Alert.fields).map (field) =>
       fieldId = dasherize(field)
       @$("##{fieldId}").val(@alert.get(field))
+      @$("##{fieldId}").parent().addClass("is-dirty") if @alert.get(field)
     _(Alert.booleans).map (boolean) =>
       booleanId = dasherize(boolean)
       @$("##{booleanId}").prop("checked", @alert.get(boolean))

@@ -14,12 +14,10 @@ class Advance extends Backbone.Model
     errors = _(Advance.fields).map (field) ->
       return "" if field is "Comments"
       return "#{field} is required. " unless (attributes[field] and attributes[field] isnt "")
-      console.log isNaN(attributes[field]) # Make sure it's a number, allows +
       return "Not a valid phone number. " if field is "Phone Number" and attributes[field] and isNaN(attributes[field]) # Make sure it's a number, allows +
     .join("")
     
     errors +=  "Can't have a reconciled advance that was never sent. " if attributes.Sent is false and attributes.Reconciled is true
-
 
     console.log errors
     if errors isnt "" then errors else null
