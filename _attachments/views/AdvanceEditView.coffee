@@ -29,6 +29,21 @@ class AdvanceEditView extends Backbone.View
           "
         .join("")
       }
+
+      #{
+        _(Advance.booleans).map (boolean) ->
+          booleanId = dasherize(boolean)
+          "
+            <label class='mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect' for='#{booleanId}'>
+              <input type='checkbox' id='#{booleanId}' class='mdl-checkbox__input'>
+              <span class='mdl-checkbox__label'>#{boolean}</span>
+            </label>
+          "
+        .join("")
+      }
+
+
+
       <button id='save' type='button' class='mdl-button mdl-js-button mdl-button--fab mdl-button--colored'>
         <i class='material-icons'>save</i>
       </button>
@@ -60,11 +75,20 @@ class AdvanceEditView extends Backbone.View
     _(Advance.fields).map (field) =>
       fieldId = dasherize(field)
       @$("##{fieldId}").val(@advance.get(field))
+    _(Advance.booleans).map (boolean) =>
+      booleanId = dasherize(boolean)
+      @$("##{booleanId}").prop("checked", @advance.get(boolean))
 
   getAdvance: =>
     @advance = new Advance() unless @advance
     _(Advance.fields).map (field) =>
       fieldId = dasherize(field)
-      @advance.set(field, @$("##{fieldId}").val())
+      value = @$("##{fieldId}").val()
+      value = value.replace(/ /g,"") if field is "Phone Number"
+      @advance.set(field, value)
+    _(Advance.booleans).map (boolean) =>
+      booleanId = dasherize(boolean)
+      value = @$("##{booleanId}").is(":checked")
+      @advance.set(boolean, value)
 
 module.exports = AdvanceEditView

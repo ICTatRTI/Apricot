@@ -1,14 +1,25 @@
 <html>
   <link rel="stylesheet" href="/node_modules/material-design-lite/material.min.css">
+  <link rel="stylesheet" href="/node_modules/awesomplete/awesomplete.css">
   <script src="/node_modules/material-design-lite/material.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <body>
     <div class="apricot-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="apricot-header mdl-layout__header"> </header>
-      <div class="apricot-drawer mdl-layout__drawer"></div>
+      <div class="apricot-drawer mdl-layout__drawer">
+        <nav class="mdl-navigation">
+          <span class="mdl-layout-title">Advances</span>
+          <a class="mdl-navigation__link" href="#new/advance">New</a>
+          <a class="mdl-navigation__link" href="#search">Search</a>
+          <span class="mdl-layout-title">Reports</span>
+          <div id='navigation-reports'></div>
+          <span class="mdl-layout-title">Manage</span>
+          <a class="mdl-navigation__link" href="#manage/alerts">Manage Alerts</a>
+          <a class="mdl-navigation__link" href="#manage/users">Manage Users</a>
+        </nav>
+      </div>
 
       <main class="mdl-layout__content">
-          <div class='mdl-spinner mdl-js-spinner is-active' id='analysis-spinner'></div>
           <div style='padding:15px;' data-role='content' id="content"></div>
           <div id='log'></div>
       </main>
