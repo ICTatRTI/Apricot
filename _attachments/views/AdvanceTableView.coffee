@@ -37,11 +37,12 @@ class AdvanceTableView extends Backbone.View
         </thead>
         <tbody>
           #{
+            advanceIndex = 0
             _(@collection).map (advance) -> "
-              <tr>
+              <tr id='advance-#{advanceIndex++}'>
                 <td>
                   <a href='#edit/advance/#{advance._id}'>
-                    <button id='edit' type='button' class='mdl-button mdl-js-button mdl-button--fab mdl-button--colored'>
+                    <button id='edit' type='button' class='mdl-button mdl-js-button mdl-button--colored'>
                       <i class='material-icons'>edit</i>
                     </button>
                   </a>
@@ -56,7 +57,22 @@ class AdvanceTableView extends Backbone.View
                 }
                 #{
                   _(Advance.booleans).map (boolean) -> "
-                    <td>#{if advance[boolean] then "Y" else "N"}</td>
+                    <td>
+                      #{
+                        if advance[boolean]
+                          if boolean is "Sent"
+                            "
+                            <button type='button' class='paymentInfo mdl-button mdl-js-button mdl-button--colored'>
+                              Y
+                              <i class='material-icons'>info</i>
+                            </button>
+                            "
+                          else
+                            "Y"
+                        else
+                          "N"
+                      }
+                    </td>
                   "
                   .join("")
                 }
@@ -72,6 +88,11 @@ class AdvanceTableView extends Backbone.View
 
   events:
     "click #downloadTable": "downloadTable"
+    "click .paymentInfo": "paymentInfo"
+
+  paymentInfo: (event) =>
+    advance = @collection[$(event.target).closest("tr").attr("id").replace(/.*-/,"")]
+    alert JSON.stringify advance.PaymentDetails
 
   downloadTable: =>
     csv = "
